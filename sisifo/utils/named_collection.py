@@ -3,7 +3,8 @@ import difflib
 
 
 class NamedCollection(collections.UserDict):
-    pass
+    def __missing__(self, key):  # pyrigth needs this because it's not defined in UserDict
+        raise KeyError(key)
 
 
 class BaseNamedCollection(NamedCollection):
@@ -11,15 +12,15 @@ class BaseNamedCollection(NamedCollection):
 
 
 class NamedCollectionDecorator(NamedCollection):
-    def __init__(self, named_collection):
+    data: NamedCollection  # pyrigth needs this because data is not an UserDict anymore
+
+    def __init__(self, named_collection: NamedCollection):
         # Do not pass named_collection to super().__init__, it makes a copy.
         super().__init__()
         self.data = named_collection
 
-    def __missing__(self, name):
-        if hasattr(self.data, "__missing__"):
-            self.data.__missing__(name)
-        raise KeyError(name)
+    def __missing__(self, key):
+        return self.data.__missing__(key)
 
 
 class CheckSubclassDecorator(NamedCollectionDecorator):

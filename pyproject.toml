@@ -1,15 +1,37 @@
 [tool.poetry]
 name = "sisifo"
 version = "0.1.0"
-description = "Task runner"
-authors = ["guiferviz <guiferviz@gmail.com>"]
+description = "Generic framework for running tasks"
+authors = [
+    "guiferviz <guiferviz@gmail.com>"
+]
 license = "MIT"
+homepage = "https://github.com/guiferviz/sisifo"
+repository = "https://github.com/guiferviz/sisifo"
+readme = "README.md"
+keywords = [
+    "tasks",
+    "framework",
+    "pipeline"
+]
+classifiers = [
+    "Programming Language :: Python :: 3.7",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.7.1"
+pyyaml = { version = "^5.4.1", optional = true }
+
+[tool.poetry.extras]
+yaml = ["pyyaml"]
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
+pytest-mock = "^3.6.1"
+pytest-cov = "^2.12.1"
+flake8 = "^3.9.2"
+pyright = "^0.0.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

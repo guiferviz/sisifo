@@ -3,8 +3,9 @@ import json
 
 try:
     import yaml
+    yaml_exists = True
 except ImportError:
-    yaml = None
+    yaml_exists = False
 
 
 class Configuration(abc.ABC):
@@ -61,7 +62,7 @@ class YAMLTextFormatStrategy(TextFormatStrategy):
         return yaml.safe_load(text)
 
     def check_pyyaml_installed(self):
-        if yaml is None:
+        if yaml_exists is None:
             raise ImportError("Install pyyaml package to use YAML config files")
 
 
