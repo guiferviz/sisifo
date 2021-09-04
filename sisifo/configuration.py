@@ -60,7 +60,7 @@ class YAMLTextFormatStrategy(TextFormatStrategy):
     def to_dict(self, text):
         self.check_pyyaml_installed()
         # If we use "yaml" here and yaml is not installed we will get a NameError.
-        self.load(text)
+        return self.load(text)
 
     def load(self, text):
         return yaml.safe_load(text)
