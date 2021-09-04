@@ -1,5 +1,5 @@
 import sisifo
-import sisifo.namespaces.common as common_tasks
+from sisifo.plugins import common as common_tasks
 
 import pytest
 

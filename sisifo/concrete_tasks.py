@@ -2,7 +2,7 @@ import uuid
 
 from sisifo.abstract_task import AbstractTask
 from sisifo.task_factory import TaskFactory
-from sisifo.utils import params
+from sisifo import utils
 
 
 class Task(AbstractTask):
@@ -103,7 +103,7 @@ class TaskDecorator(AbstractTask):
 class EntityTask(Task):
     def __init__(self, entity=None, entity_in=None, entity_out=None, **kwargs):
         super().__init__(**kwargs)
-        self.entity_in, self.entity_out = params.validate_entity_in_out(
+        self.entity_in, self.entity_out = utils.validate_entity_in_out(
                 entity, entity_in, entity_out)
 
     def run(self, data):
@@ -117,5 +117,5 @@ class EntityTask(Task):
 class EntityColumnTask(EntityTask):
     def __init__(self, column=None, column_in=None, column_out=None, **kwargs):
         super().__init__(**kwargs)
-        self.column_in, self.column_out = params.validate_column_in_out(
+        self.column_in, self.column_out = utils.validate_column_in_out(
             column, column_in, column_out)

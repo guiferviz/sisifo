@@ -1,6 +1,6 @@
 import sys
 
-import sisifo.namespaces.common as common_tasks
+from sisifo.plugins import common as common_tasks
 
 import pytest
 
@@ -11,7 +11,7 @@ def test_error_without_script():
 
 
 def test_run(mocker):
-    subprocess = mocker.patch("sisifo.namespaces.common.run_script.subprocess")
+    subprocess = mocker.patch("sisifo.plugins.common.run_script.subprocess")
 
     script = "echo 'hola'"
     task = common_tasks.RunScript(script)

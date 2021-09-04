@@ -1,4 +1,4 @@
-import sisifo.utils.named_collection as named_collection
+import sisifo.named_collection as named_collection
 
 import pytest
 

@@ -1,14 +1,13 @@
-import logging
-
-from sisifo.namespaces import common  # noqa
+# Import with "_" to avoid polluting "plugins" module.
+import importlib as _importlib
+import logging as _logging
+import os as _os
+import pkgutil as _pkgutil
 
 
 def _find_plugins():
-    # Import here to avoid polluting "namespaces" module.
-    import pkgutil
-
     plugins = {}
-    for _, full_name, _ in pkgutil.iter_modules():
+    for _, full_name, _ in _pkgutil.iter_modules():
         if full_name.startswith("sisifo_"):
             _, name = full_name.split("_")
             plugins[name] = full_name
@@ -16,13 +15,10 @@ def _find_plugins():
 
 
 def _import_plugin(full_name):
-    # Import here to avoid polluting "namespaces" module.
-    import importlib
-
     try:
-        return importlib.import_module(full_name)
+        return _importlib.import_module(full_name)
     except:
-        logging.exception(f"Cannot import sisifo plugin '{full_name}'")
+        _logging.exception(f"Cannot import sisifo plugin '{full_name}'")
 
 
 def _import_plugins(plugins):
@@ -47,10 +43,7 @@ def load_plugins():
 
 
 def _load_plugins_start_up():
-    # Import here to avoid polluting "namespaces" module.
-    import os
-
-    if "SISIFO_NO_PLUGINS" not in os.environ:
+    if "SISIFO_NO_PLUGINS" not in _os.environ:
         load_plugins()
 
 

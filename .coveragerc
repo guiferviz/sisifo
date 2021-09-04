@@ -1,7 +1,11 @@
 [run]
 relative_files = True
+source =
+    sisifo
+    sisifo_common
 
 [report]
+fail_under = 100
 exclude_lines =
     pragma: no cover
     raise NotImplementedError

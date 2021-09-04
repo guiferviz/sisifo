@@ -1,5 +1,5 @@
-from sisifo.utils.named_collection import NamedCollectionBuilder
-from sisifo.utils.named_collection import NamedCollectionDecorator
+from sisifo.named_collection import NamedCollectionBuilder
+from sisifo.named_collection import NamedCollectionDecorator
 
 
 class DataCollection(NamedCollectionDecorator):

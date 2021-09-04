@@ -1,6 +1,6 @@
 from sisifo.abstract_task import AbstractTask
-from sisifo.utils.named_collection import AllowUpdateDecorator
-from sisifo.utils.named_collection import NamedCollectionBuilder
+from sisifo.named_collection import AllowUpdateDecorator
+from sisifo.named_collection import NamedCollectionBuilder
 
 
 class TaskRegistry:
