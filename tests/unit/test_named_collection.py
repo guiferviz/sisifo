@@ -1,4 +1,4 @@
-import sisifo.utils.named_collection as named_collection
+from sisifo import named_collection
 
 import pytest
 
@@ -148,3 +148,15 @@ def test_fail_if_exists_and_allow_update_decorators(surnames):
     surnames = named_collection.AllowUpdateDecorator(surnames)
     surnames["Ignatius"] = "Minkoff"
     assert original_surnames["Ignatius"] == "Minkoff"
+
+
+def test_builder():
+    col = (
+        named_collection.NamedCollectionBuilder()
+        .suggestions()
+        .instance_of(str)
+        .build()
+    )
+    assert type(col) == named_collection.CheckInstanceDecorator
+    assert type(col.data) == named_collection.SuggestionsDecorator
+    assert type(col.data.data) == named_collection.BaseNamedCollection

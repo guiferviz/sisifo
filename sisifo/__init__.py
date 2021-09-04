@@ -20,8 +20,9 @@ from sisifo.task_registry import has_task  # noqa
 from sisifo.task_registry import remove_task  # noqa
 from sisifo.task_registry import replace_task  # noqa
 from sisifo.task_registry import set_task_registry  # noqa
-from sisifo.utils.named_collection import NamedCollection  # noqa
-from sisifo.utils.named_collection import NamedCollectionDecorator  # noqa
+from sisifo.named_collection import NamedCollection  # noqa
+from sisifo.named_collection import NamedCollectionDecorator  # noqa
+from sisifo import plugins  # noqa
 
 
 __author__ = "guiferviz"

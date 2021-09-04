@@ -1,7 +1,7 @@
 from unittest.mock import call
 
 import sisifo
-import sisifo.namespaces.common as common_tasks
+from sisifo.plugins import common as common_tasks
 
 import pytest
 
@@ -40,7 +40,7 @@ def test_add_tasks_after_creation(sample_task):
 
 
 def test_run(data_collection, mocker, sample_task):
-    executor = mocker.patch("sisifo.namespaces.common.parallel_pipeline.ThreadPoolExecutor")
+    executor = mocker.patch("sisifo.plugins.common.parallel_pipeline.ThreadPoolExecutor")
 
     t1 = sample_task()
     t2 = sample_task()

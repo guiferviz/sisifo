@@ -18,6 +18,10 @@ classifiers = [
     "Programming Language :: Python :: 3.7",
     "Topic :: Software Development :: Libraries :: Python Modules"
 ]
+packages = [
+    { include = "sisifo" },
+    { include = "sisifo_common" },
+]
 
 [tool.poetry.dependencies]
 python = "^3.7.1"

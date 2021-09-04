@@ -98,8 +98,8 @@ class NamedCollectionBuilder:
         self._collection = CheckSubclassDecorator(self._collection, subclass)
         return self
 
-    def instance_of(self, subclass):
-        self._collection = CheckInstanceDecorator(self._collection, subclass)
+    def instance_of(self, class_):
+        self._collection = CheckInstanceDecorator(self._collection, class_)
         return self
 
     def suggestions(self):
