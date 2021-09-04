@@ -22,6 +22,7 @@ from sisifo.task_registry import replace_task  # noqa
 from sisifo.task_registry import set_task_registry  # noqa
 from sisifo.utils.named_collection import NamedCollection  # noqa
 from sisifo.utils.named_collection import NamedCollectionDecorator  # noqa
+from sisifo import namespaces  # noqa
 
 
 __author__ = "guiferviz"
