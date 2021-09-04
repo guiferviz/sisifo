@@ -30,6 +30,8 @@ jobs:
       - name: Add Poetry to PATH env var
         run: |
           echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+      - name: Install Python Requirements
+        run: poetry install
       - name: Run Linter
         run: poetry run flake8
       - name: Run Type Checks
