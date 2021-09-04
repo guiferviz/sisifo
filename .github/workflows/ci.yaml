@@ -35,7 +35,7 @@ jobs:
       - name: Run Linter
         run: poetry run flake8
       - name: Run Type Checks
-        run: poetry run pyrigth
+        run: poetry run pyright
       - name: Run Tests
         run: poetry run pytest
       - name: Build Wheel
