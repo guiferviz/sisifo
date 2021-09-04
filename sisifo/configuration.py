@@ -62,7 +62,7 @@ class YAMLTextFormatStrategy(TextFormatStrategy):
         return yaml.safe_load(text)
 
     def check_pyyaml_installed(self):
-        if yaml_exists is None:
+        if not yaml_exists:
             raise ImportError("Install pyyaml package to use YAML config files")
 
 

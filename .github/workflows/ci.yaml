@@ -39,7 +39,7 @@ jobs:
         run: |
           echo "$HOME/.poetry/bin" >> $GITHUB_PATH
       - name: Install Python Requirements
-        run: poetry install
+        run: poetry install -E yaml
       - name: Run Linter
         run: poetry run flake8
       - name: Run Type Checks
