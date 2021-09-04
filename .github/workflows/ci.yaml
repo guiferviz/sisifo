@@ -43,7 +43,9 @@ jobs:
       - name: Run Linter
         run: poetry run flake8
       - name: Run Type Checks
-        run: poetry run pyright
+        run: |
+          npm install -g pyright
+          poetry run pyright
       - name: Run Tests
         run: poetry run pytest
       - name: Build Wheel
