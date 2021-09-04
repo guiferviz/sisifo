@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "sisifo"
 version = "0.1.0"
-description = "Generic framework for running tasks"
+description = "Generic framework for running data pipelines"
 authors = [
     "guiferviz <guiferviz@gmail.com>"
 ]
@@ -48,4 +48,10 @@ minversion = "6.0"
 addopts = "--cov"
 testpaths = [
     "tests/"
+]
+
+[tool.pyright]
+include = [
+    "sisifo/",
+    "sisifo_common/"
 ]
