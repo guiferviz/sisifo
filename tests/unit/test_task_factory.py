@@ -1,4 +1,5 @@
 import sisifo
+from sisifo.task_factory import TaskFactory
 
 import pytest
 
@@ -19,3 +20,8 @@ def test_create_task(test_task):
         "task": "test.TestTask",
     })
     assert type(task) == test_task
+
+
+def test_get_task_class_from_config():
+    with pytest.raises(ValueError):
+        TaskFactory().get_task_class_from_config(dict(name="something"))

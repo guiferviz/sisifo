@@ -79,3 +79,46 @@ def test_append_with_task_decorator(data_collection, append_to_entity_task,
     task.run(data_collection)
     task.run(data_collection)
     assert data_collection["I do not exist"] == ["value", "value"]
+
+
+def test_wrapper(mocker):
+    mock_task = mocker.Mock(name="Task")
+    mock_task.return_value = "hey"
+    decorator = sisifo.TaskDecorator(mock_task)
+
+    assert decorator.to_config() == mock_task.to_config()
+    assert decorator.get_id() == mock_task.get_id()
+    assert decorator.get_name() == mock_task.get_name()
+    assert decorator.run(None) == mock_task.run(None)
+    assert decorator.set_parent(None) == mock_task.set_parent(None)
+    assert decorator.get_parent() == mock_task.get_parent()
+    assert decorator.add_child(None) == mock_task.add_child(None)
+    assert decorator.get_children() == mock_task.get_children()
+    assert decorator.remove_child(None) == mock_task.remove_child(None)
+
+
+def test_entity_task_entity_in_error():
+    with pytest.raises(ValueError):
+        sisifo.EntityTask(entity_out="out")
+
+
+def test_entity_task_entity_out_default_in():
+    task = sisifo.EntityTask(entity_in="in")
+    assert task.entity_out == "in"
+
+
+def test_entity_task_run_entity(data_collection):
+    task = sisifo.EntityTask(entity_in="in", entity_out="out")
+    data_collection["in"] = "entity_value"
+    task.run(data_collection)
+    assert data_collection["out"] == "entity_value"
+
+
+def test_entity_column_task_column_in_error():
+    with pytest.raises(ValueError):
+        sisifo.EntityColumnTask(entity="entity")
+
+
+def test_entity_column_task_column_out_default_in():
+    task = sisifo.EntityColumnTask(entity="entity", column_in="in")
+    assert task.column_out == "in"

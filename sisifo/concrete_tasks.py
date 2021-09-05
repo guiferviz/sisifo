@@ -97,7 +97,7 @@ class TaskDecorator(AbstractTask):
         return self.task.get_children()
 
     def remove_child(self, child):
-        return self.task.remove_children(child)
+        return self.task.remove_child(child)
 
 
 class EntityTask(Task):
