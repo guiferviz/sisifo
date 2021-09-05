@@ -21,25 +21,82 @@ def sample_task():
     sisifo.remove_task("test.SampleTask")
 
 
-def test_to_config_task(sample_task):
+def test_task_to_dict(sample_task):
     task = sample_task()
     expected = {
         "name": "SampleTask",
         "sample_property": "default",
     }
-    actual = task.to_config()
-
+    actual = task.to_dict()
     assert re.match(UUID_REGEX, actual["id"])
     del actual["id"]
     assert actual == expected
 
 
-def test_from_config_default(sample_task):
-    actual = sample_task.from_config({})
-
+def test_task_from_dict_default(sample_task):
+    actual = sample_task.from_dict({})
     assert type(actual) == sample_task
     assert actual.sample_property == "default"
     assert re.match(UUID_REGEX, actual.id)
+
+
+def test_task_get_id_custom_value():
+    task = sisifo.Task(id="task_id")
+    assert task.get_id() == "task_id"
+
+
+def test_task_get_name_default_value():
+    task = sisifo.Task()
+    assert task.get_name() == "Task"
+
+
+def test_task_get_name_custom_value():
+    task = sisifo.Task(name="MyTask")
+    assert task.get_name() == "MyTask"
+
+
+def test_task_get_set_parent():
+    task = sisifo.Task()
+    parent_task = sisifo.Task()
+    assert task.get_parent() == None
+    task.set_parent(parent_task)
+    assert task.get_parent() == parent_task
+
+
+def test_task_set_parent_type_error():
+    task = sisifo.Task()
+    with pytest.raises(TypeError):
+        task.set_parent(None)
+
+
+def test_task_add_child_type_error():
+    task = sisifo.Task()
+    with pytest.raises(TypeError):
+        task.add_child(None)
+
+
+def test_task_add_remove_child():
+    parent = sisifo.Task()
+    child = sisifo.Task()
+    parent.add_child(child)
+    assert parent.get_children() == [child]
+    assert child.get_parent() == None
+    parent.remove_child(child)
+    assert parent.get_children() == []
+
+
+def test_task_create_subtask():
+    parent = sisifo.Task()
+    child = sisifo.Task()
+    parent.create_subtask(child)
+    assert parent.get_children() == [child]
+    assert child.get_parent() == parent
+
+
+def test_task_create_subtask_type_error():
+    task = sisifo.Task()
+    with pytest.raises(TypeError):
+        task.create_subtask("?")
 
 
 @pytest.fixture()
@@ -81,12 +138,12 @@ def test_append_with_task_decorator(data_collection, append_to_entity_task,
     assert data_collection["I do not exist"] == ["value", "value"]
 
 
-def test_wrapper(mocker):
+def test_task_decorator_wraps_task(mocker):
     mock_task = mocker.Mock(name="Task")
     mock_task.return_value = "hey"
     decorator = sisifo.TaskDecorator(mock_task)
 
-    assert decorator.to_config() == mock_task.to_config()
+    assert decorator.to_dict() == mock_task.to_dict()
     assert decorator.get_id() == mock_task.get_id()
     assert decorator.get_name() == mock_task.get_name()
     assert decorator.run(None) == mock_task.run(None)

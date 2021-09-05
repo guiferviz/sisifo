@@ -22,6 +22,6 @@ def test_create_task(test_task):
     assert type(task) == test_task
 
 
-def test_get_task_class_from_config():
+def test_get_task_class_from_dict():
     with pytest.raises(ValueError):
-        TaskFactory().get_task_class_from_config(dict(name="something"))
+        TaskFactory().get_task_class_from_dict(dict(name="something"))
