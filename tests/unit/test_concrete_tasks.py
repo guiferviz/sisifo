@@ -58,7 +58,7 @@ def test_task_get_name_custom_value():
 def test_task_get_set_parent():
     task = sisifo.Task()
     parent_task = sisifo.Task()
-    assert task.get_parent() == None
+    assert task.get_parent() is None
     task.set_parent(parent_task)
     assert task.get_parent() == parent_task
 
@@ -80,7 +80,7 @@ def test_task_add_remove_child():
     child = sisifo.Task()
     parent.add_child(child)
     assert parent.get_children() == [child]
-    assert child.get_parent() == None
+    assert child.get_parent() is None
     parent.remove_child(child)
     assert parent.get_children() == []
 
