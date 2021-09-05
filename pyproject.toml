@@ -8,7 +8,7 @@ authors = [
 license = "MIT"
 homepage = "https://github.com/guiferviz/sisifo"
 repository = "https://github.com/guiferviz/sisifo"
-readme = "README.md"
+readme = "README.adoc"
 keywords = [
     "tasks",
     "framework",
@@ -25,10 +25,6 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.7"
-pyyaml = { version = "^5.4.1", optional = true }
-
-[tool.poetry.extras]
-yaml = ["pyyaml"]
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
