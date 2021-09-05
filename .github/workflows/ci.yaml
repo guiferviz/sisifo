@@ -48,7 +48,7 @@ jobs:
       - name: Run Type Checks
         run: |
           npm install -g pyright
-          poetry run pyright
+          PYTHONIOENCODING=utf-8 poetry run pyright
       - name: Run Tests
         run: poetry run pytest
       - name: Build Wheel
