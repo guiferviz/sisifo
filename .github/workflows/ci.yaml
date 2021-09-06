@@ -48,8 +48,12 @@ jobs:
       - name: Run Type Checks
         run: |
           npm install -g pyright
-          PYTHONIOENCODING=utf-8 poetry run pyright
+          pyright
       - name: Run Tests
         run: poetry run pytest
       - name: Build Wheel
         run: poetry build
+      - name: Upload Wheel to GitHub Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          path: dist/
