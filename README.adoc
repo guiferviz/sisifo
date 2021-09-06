@@ -1,0 +1,160 @@
+image::./logo/logo.png[Sisyphus silhouette]
+
+
+== Sísifo - Task runner
+
+Sísifo is the Spanish form of Sisyphus, in ancient Greek: Σίσυφος. This poor
+guy was punished for his self-aggrandizing craftiness and deceitfulness by
+being forced to roll an immense boulder up a hill only for it to roll down
+every time it neared the top, repeating this action for eternity. More
+information in https://en.wikipedia.org/wiki/Sisyphus[Wikipedia].
+
+This poor library is doomed to an eternity of performing tasks with no other
+purpose in its pitiful and miserable life. I hope you didn't make fun of this
+insignificant library, our existence is not much more encouraging...
+
+
+=== How does it work?
+
+Essentially, Sísifo is just a library that allows you to run tasks on a data
+collection. Therefore, the most important classes of the library are:
+
+* `sisifo.DataCollection`. A DataCollection is like a dictionary. Use a key to
+store/retrieve any kind of value from a data collection. The values stored in a
+data collection are called **entities**.
+* `sisifo.Task`. A task is a class with a `run(data_collection)` method that,
+usually, modifies the entities in a data collection.
+
+Let's dive into an example. The fist step is to import the core of the library.
+It's as simple as:
+
+[source,python]
+----
+import sisifo
+----
+
+You can access all the relevant classes from the core of sisifo just with one
+import. Everything else is optional, an extension of the core.
+
+Let's create our first data collection with a couple of entities.
+
+[source,python]
+----
+data = sisifo.DataCollection()
+data["entity1"] = 1
+data["entity2"] = 2
+----
+
+As you can see, a data collection has the same interface as a dictionary.
+Try to use `keys()`, `items()` or `<str> in data`:
+
+[source,python]
+----
+data.keys()  # KeysView({'entity1': 1, 'entity2': 2})
+data.items()  # ItemsView({'entity1': 1, 'entity2': 2})
+"entity1" in data  # True
+"entity3" in data  # False
+----
+
+Nothing fancy so far, uh? Just a dictionary.
+
+Imagine you want to add 1 to the `entity1`. You can do something like
+`data["entity1"] += 1` or we can use a `sisifo.Task` for this.
+
+[source,python]
+----
+class AddOne(sisifo.Task):
+    def run(self, data):
+        data["entity1"] += 1
+----
+
+On the one hand we have the data (`data` variable) and, on the other hand, we
+have an operation defined inside a class (`AddOne` class). If we want to run a
+task over a concrete data collection we need to call the `run` method in an
+object of the class:
+
+[source,python]
+----
+task = AddOne()
+
+print(data)  # {'entity1': 1, 'entity2': 2}
+task.run(data)
+print(data)  # {'entity1': 2, 'entity2': 2}
+----
+
+We wrote a really specific transformation, it only works for a given entity
+name `entity1`, what if we want to reuse the task also for adding one to the
+`entity2`? Instead of using a hard-coded entity name in the run method we can
+create a property in the `AddOne` class.
+
+[source,python]
+----
+class AddOne(sisifo.Task):
+    def __init__(self, entity, **kwargs):
+        super().__init__(**kwargs)  # this is needed to initialize the super
+                                    # class sisifo.Task
+        self.entity = entity
+
+    def run(self, data):
+        data[self.entity] += 1
+----
+
+Now we can reuse the same task on different entities:
+
+[source,python]
+----
+data = sisifo.DataCollection()
+data["entity1"] = 1
+data["entity2"] = 2
+
+task1 = AddOne("entity1")
+task2 = AddOne("entity2")
+
+print(data)  # {'entity1': 1, 'entity2': 2}
+task1.run(data)
+task2.run(data)
+print(data)  # {'entity1': 2, 'entity2': 3}
+----
+
+Instead of running all tasks one by one we can use a pipeline. A pipeline is
+an extension of the core sisifo code, so we need to import the common namespace
+and create the task from there:
+
+[source,python]
+----
+import sisifo.namespaces.common as common_tasks
+
+
+data = sisifo.DataCollection()
+data["entity1"] = 1
+data["entity2"] = 2
+
+pipe = common_tasks.Pipeline([
+    AddOne("entity1"),
+    AddOne("entity2"),
+])
+
+print(data)  # {'entity1': 1, 'entity2': 2}
+pipe.run(data)
+print(data)  # {'entity1': 2, 'entity2': 3}
+----
+
+Can we easily read a definition of this pipeline from a configuration file? Yes!
+sisifo has a decorator that allows you to register a class in the sisifo task
+register and you can easily create instances from that class using a dynamic
+approach, that is, reading the name of the class from a string instead of calling
+the specific class, like: `sisifo.create_task(dict(task="AddOne", entity="entity1"))`.
+explain concepts of namespaces... TO BE CONTINUED.
+
+
+== Can Sísifo do X?
+
+If you have any concerns about whether or not sisifo can do anything, think
+about the answer to this other question: *Can Python do X?*.  If you can do it
+with Python it means it can be done using sísifo. Maybe not out-of-the-box with
+the existing tasks, but you can do it for sure after some development.
+
+Sisifo is just a way of calling functions one after another. I think the main
+advantages of the sisifo approach is that you are some kind forced to split you
+code in small reusable pieces of code (tasks) and you can run those tasks just
+reading from a configuration file.

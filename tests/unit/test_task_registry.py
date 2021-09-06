@@ -61,3 +61,13 @@ def test_replace(test_task):
 
     assert sisifo.get_task("test.TestTask") != test_task
     assert sisifo.get_task("test.TestTask") == TestTask
+
+
+def test_get_task_registry(mocker, test_task):
+    mocker.patch("sisifo.task_registry._TASK_REGISTRY", "hello")
+    assert sisifo.get_task_registry() == "hello"
+
+
+def test_set_task_registry(mocker, test_task):
+    sisifo.set_task_registry("hello")
+    assert sisifo.task_registry._TASK_REGISTRY == "hello"

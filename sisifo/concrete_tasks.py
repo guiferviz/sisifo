@@ -7,8 +7,8 @@ from sisifo import utils
 
 class Task(AbstractTask):
     @classmethod
-    def from_config(cls, config):
-        return cls(**config)
+    def from_dict(cls, config_dict):
+        return cls(**config_dict)
 
     def __init__(self, id=None, name=None, factory=None):
         self.id = id or str(uuid.uuid4())
@@ -17,7 +17,7 @@ class Task(AbstractTask):
         self._parent = None
         self._children = []
 
-    def to_config(self):
+    def to_dict(self):
         properties = vars(self)
         public_properties = {
             k: v for k, v in properties.items() if not k.startswith("_")
@@ -30,21 +30,21 @@ class Task(AbstractTask):
     def get_name(self):
         return self.name
 
-    def run(self, data):
-        return data
+    def run(self, _):
+        pass
 
     def set_parent(self, parent: AbstractTask):
         if not isinstance(parent, AbstractTask):
-            raise ValueError("`parent` should be instance of AbstractTask")
+            raise TypeError("`parent` should be instance of AbstractTask")
         self._parent = parent
 
     def get_parent(self):
         return self._parent
 
-    def add_child(self, task) -> None:
-        if not isinstance(task, AbstractTask):
-            raise ValueError("`task` should be instance of AbstractTask")
-        self._children.append(task)
+    def add_child(self, parent: AbstractTask) -> None:
+        if not isinstance(parent, AbstractTask):
+            raise TypeError("`task` should be instance of AbstractTask")
+        self._children.append(parent)
 
     def get_children(self) -> list:
         return self._children
@@ -52,13 +52,13 @@ class Task(AbstractTask):
     def remove_child(self, child) -> None:
         self._children.remove(child)
 
-    def create_subtask(self, task_or_config):
-        task = task_or_config
-        if not isinstance(task_or_config, AbstractTask):
-            if type(task_or_config) == dict:
-                task = self._factory.create_task(task_or_config)
+    def create_subtask(self, task_or_dict):
+        task = task_or_dict
+        if not isinstance(task_or_dict, AbstractTask):
+            if type(task_or_dict) == dict:
+                task = self._factory.create_task(task_or_dict)
             else:
-                raise ValueError("Cannot infer task from type: {type(task_or_config)}")
+                raise TypeError(f"Cannot infer task from type: {type(task_or_dict)}")
         self.add_child(task)
         task.set_parent(self)
         return task
@@ -66,14 +66,14 @@ class Task(AbstractTask):
 
 class TaskDecorator(AbstractTask):
     @classmethod
-    def from_config(cls, _):
+    def from_dict(cls, _):
         raise NotImplementedError()
 
     def __init__(self, task):
         self.task = task
 
-    def to_config(self):
-        return self.task.to_config()
+    def to_dict(self):
+        return self.task.to_dict()
 
     def get_id(self):
         return self.task.get_id()
@@ -97,7 +97,7 @@ class TaskDecorator(AbstractTask):
         return self.task.get_children()
 
     def remove_child(self, child):
-        return self.task.remove_children(child)
+        return self.task.remove_child(child)
 
 
 class EntityTask(Task):

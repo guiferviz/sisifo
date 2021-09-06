@@ -17,7 +17,7 @@ def _find_plugins():
 def _import_plugin(full_name):
     try:
         return _importlib.import_module(full_name)
-    except:
+    except Exception:
         _logging.exception(f"Cannot import sisifo plugin '{full_name}'")
 
 

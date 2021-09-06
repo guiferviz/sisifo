@@ -30,9 +30,6 @@ class TaskRegistry:
     def __contains__(self, canonical_name: str):
         return canonical_name in self._collection
 
-    def get_collection(self):
-        return self._collection
-
 
 _TASK_REGISTRY = TaskRegistry()
 

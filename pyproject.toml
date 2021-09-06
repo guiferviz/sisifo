@@ -1,14 +1,14 @@
 [tool.poetry]
 name = "sisifo"
 version = "0.1.0"
-description = "Generic framework for running tasks"
+description = "Generic framework for running data pipelines"
 authors = [
     "guiferviz <guiferviz@gmail.com>"
 ]
 license = "MIT"
 homepage = "https://github.com/guiferviz/sisifo"
 repository = "https://github.com/guiferviz/sisifo"
-readme = "README.md"
+readme = "README.adoc"
 keywords = [
     "tasks",
     "framework",
@@ -24,11 +24,7 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.7.1"
-pyyaml = { version = "^5.4.1", optional = true }
-
-[tool.poetry.extras]
-yaml = ["pyyaml"]
+python = "^3.7"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
@@ -37,8 +33,20 @@ pytest-cov = "^2.12.1"
 flake8 = "^3.9.2"
 flake8-quotes = "^3.3.0"
 flake8-commas = "^2.0.0"
-pyright = "^0.0.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "--cov"
+testpaths = [
+    "tests/"
+]
+
+[tool.pyright]
+include = [
+    "sisifo/",
+    "sisifo_common/"
+]

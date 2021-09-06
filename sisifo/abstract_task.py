@@ -10,11 +10,11 @@ class Executable(abc.ABC):
 class Serializable(abc.ABC):
     @classmethod
     @abc.abstractclassmethod
-    def from_config(cls, factory, config):
+    def from_dict(cls, factory, config):
         pass
 
     @abc.abstractmethod
-    def to_config(self):
+    def to_dict(self):
         pass
 
 
